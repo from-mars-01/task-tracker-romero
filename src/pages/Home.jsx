@@ -27,17 +27,6 @@ export default function Home() {
     setCompletedTasks(completedState);
   }
 
-  // No longer needed since we have NewTask page
-  // async function addTask() {
-  //   if (!task) return;
-  //   const { data, error } = await supabase.from("tasks").insert([{ content: task }]);
-  //   if (error) console.error("Insert error:", error);
-  //   else {
-  //     setTask("");
-  //     fetchTasks(); // Refresh the list
-  //   }
-  // }
-
   async function markAsCompleted(id, currentStatus) {
   const newStatus = !currentStatus;
 
@@ -62,18 +51,6 @@ export default function Home() {
     <Container className="container mt-4">
       <Header />
       <h3>List of tasks</h3>
-      {/*No longer needed since we have NewTask page
-       <input
-        type="text"
-        value={task}
-        onChange={(e) => setTask(e.target.value)}
-        className="form-control mb-2"
-        placeholder="Enter a new task"
-      /> */}
-      {/* No longer needed since we have NewTask page
-      <button className="btn btn-primary mb-3" onClick={addTask}>
-        Add Task
-      </button> */}
 
       <ul className="list-group">
         {tasks.map((t) => (
@@ -95,7 +72,7 @@ export default function Home() {
                 }`}
                 style={{ 
                   fontWeight: completedTasks[t.id] ? "500" : "400" }}>
-                {t.content}
+                {t.title}
               </span>
           </li>
         ))}

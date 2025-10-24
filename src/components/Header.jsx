@@ -26,6 +26,7 @@ export default function Header() {
           <Nav className="me-auto">
             <Nav.Link as={Link} to="/about" active={isActive("/about")}>About</Nav.Link>
             <Nav.Link as={Link} to="/contact" active={isActive("/contact")}>Contact</Nav.Link>
+            <Nav.Link as={Link} to="/tasks" active={isActive("/tasks")}>Task List</Nav.Link>
 
             <NavDropdown title="More" id="nav-more">
               <NavDropdown.Item as={Link} to="/settings">Settings</NavDropdown.Item>

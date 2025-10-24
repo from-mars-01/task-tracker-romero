@@ -6,6 +6,7 @@ import Home from './pages/Home'
 import About from './pages/About'
 import Contact from './pages/Contact'
 import NewTask from './pages/NewTask'
+import TaskList from './pages/TaskList'
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/tasks/new" element={<NewTask />} />
+        <Route path="/tasks" element={<TaskList />} />
       </Routes> 
     </Router>
   )

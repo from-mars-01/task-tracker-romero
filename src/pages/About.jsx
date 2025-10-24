@@ -6,6 +6,7 @@ function About() {
         <Container className="mt-4">
             <Header />
             <h1>About Marco's Task Tracker</h1>
+            <p>This application is designed to help you manage your tasks efficiently.</p>
         </Container>
     );
 }
