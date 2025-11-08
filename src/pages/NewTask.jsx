@@ -3,20 +3,25 @@ import supabase from "../lib/supabase";
 import Header from "../components/Header";
 import TaskCard from "../components/TaskCard";
 import { useNavigate } from "react-router-dom";
+import useAuth from "../hooks/useAuth";
 
 export default function NewTask() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { user, loading: authLoading } = useAuth();
+
+  if (authLoading) return null;
 
   async function addTask() {
     if (!title || !description) return alert("Please enter both the task title and description");
     setLoading(true);
 
+  
     const { data, error } = await supabase
     .from("tasks")
-    .insert([{ title, description }])
+    .insert([{ title, description, user_id: user.id }])
     .select();
 
     setLoading(false);

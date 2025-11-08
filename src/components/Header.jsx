@@ -1,12 +1,14 @@
-import { use } from "react";
 import { Navbar, Nav, Container, Button, NavDropdown } from "react-bootstrap";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import useAuth from "../hooks/useAuth";
+import supabase from "../lib/supabase";
 
 export default function Header() {
   const location = useLocation();
   const navigate = useNavigate();
+  const { user, loading } = useAuth();
 
-    const isActive = (path) => location.pathname === path;
+  const isActive = (path) => location.pathname === path;
 
   return (
     <Navbar bg="dark" variant="dark" expand="md" sticky="top">
@@ -24,24 +26,33 @@ export default function Header() {
         <Navbar.Collapse id="main-nav">
           {/* Left Nav */}
           <Nav className="me-auto">
-            <Nav.Link as={Link} to="/about" active={isActive("/about")}>About</Nav.Link>
-            <Nav.Link as={Link} to="/contact" active={isActive("/contact")}>Contact</Nav.Link>
             <Nav.Link as={Link} to="/tasks" active={isActive("/tasks")}>Task List</Nav.Link>
 
             <NavDropdown title="More" id="nav-more">
               <NavDropdown.Item as={Link} to="/settings">Settings</NavDropdown.Item>
-              <NavDropdown.Item as={Link} to="/help">Help</NavDropdown.Item>
+              <NavDropdown.Item as={Link} to="/contact">Contact</NavDropdown.Item>
               <NavDropdown.Divider />
               <NavDropdown.Item as={Link} to="/about">About</NavDropdown.Item>
             </NavDropdown>
           </Nav>
 
           {/* Right-side actions */}
-          <div className="d-flex gap-2">
-s            <Button size="sm" variant="success" onClick={() => navigate("/tasks/new")}>
-              New Task
-            </Button>
-          </div>
+          <Nav className="ms-auto d-flex align-items-center">
+            {loading ? null : user ? (
+              <>
+              <Nav.Link as={Link} to="/account" className="text-light fw-semibold">
+              Account 
+              </Nav.Link>
+              <Button size="sm" variant="success" onClick={() => navigate("/tasks/new")}>
+                  New Task
+              </Button>
+              </>
+            ) : (
+              <>
+                <Nav.Link as={Link} to="/login" active={isActive("/login")} className="me-2">Login</Nav.Link>
+              </>
+            )}
+          </Nav>
         </Navbar.Collapse>
       </Container>
     </Navbar>

@@ -1,22 +1,26 @@
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import supabase from "../lib/supabase";
 import Header from "../components/Header";
 import TaskCard from "../components/TaskCard";
+import useAuth from "../hooks/useAuth";
 
 export default function TaskList() {
+  const { user, loading: authLoading } = useAuth();
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
 
   // Fetch tasks from Supabase
   useEffect(() => {
-    fetchTasks();
-  }, []);
+    if (!authLoading && user)
+    fetchTasks(user.id);
+  }, [authLoading, user]);
 
-  async function fetchTasks() {
+  async function fetchTasks(userId) {
     setLoading(true);
     const { data, error } = await supabase
       .from("tasks")
       .select("*")
+      .eq("user_id", userId)
       .order("id", { ascending: true });
 
     if (error) {
@@ -66,7 +70,7 @@ export default function TaskList() {
             }}
           >
             {leftColumn.map((task) => (
-              <TaskCard key={task.id} task={task} onUpdate={fetchTasks} />
+              <TaskCard key={task.id} task={task} onUpdate={() => fetchTasks(user.id)} />
             ))}
           </div>
 
@@ -81,7 +85,7 @@ export default function TaskList() {
             }}
           >
             {rightColumn.map((task) => (
-              <TaskCard key={task.id} task={task} onUpdate={fetchTasks} />
+              <TaskCard key={task.id} task={task} onUpdate={() => fetchTasks(user.id)} />
             ))}
           </div>
         </div>

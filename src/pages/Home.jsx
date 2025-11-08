@@ -40,9 +40,9 @@ export default function Home() {
     .eq("id", id);
 
   if (error) {
-    console.error("❌ Update error:", error);
+    console.error("Update error:", error);
   } else {
-    console.log(`✅ Task ${id} updated to ${newStatus}`);
+    console.log(`Task ${id} updated to ${newStatus}`);
   }
 }
 
@@ -77,10 +77,6 @@ export default function Home() {
           </li>
         ))}
       </ul>
-
-      <div className="text-center mt-5">
-      <TestButton />
-    </div>
     </Container>
   );
 }
