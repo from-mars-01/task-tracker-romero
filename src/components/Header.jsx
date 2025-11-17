@@ -1,7 +1,7 @@
 import { Navbar, Nav, Container, Button, NavDropdown } from "react-bootstrap";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
-import supabase from "../lib/supabase";
+import ServerFilterList from "./ServerFilterList";
 
 export default function Header() {
   const location = useLocation();
@@ -35,6 +35,9 @@ export default function Header() {
               <NavDropdown.Item as={Link} to="/about">About</NavDropdown.Item>
             </NavDropdown>
           </Nav>
+          <div className="d-flex align -items-center me-3">
+            <ServerFilterList />
+          </div>
 
           {/* Right-side actions */}
           <Nav className="ms-auto d-flex align-items-center">

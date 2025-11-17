@@ -1,4 +1,5 @@
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import supabase from "../lib/supabase";
 import Header from "../components/Header";
 import TaskCard from "../components/TaskCard";
@@ -8,20 +9,28 @@ export default function TaskList() {
   const { user, loading: authLoading } = useAuth();
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  const [searchParams] = useSearchParams();
+  const searchTerm = searchParams.get("search") || "";
   // Fetch tasks from Supabase
   useEffect(() => {
     if (!authLoading && user)
-    fetchTasks(user.id);
-  }, [authLoading, user]);
+      fetchTasks(user.id, searchTerm);
+  }, [authLoading, user, searchTerm]);
 
-  async function fetchTasks(userId) {
+  async function fetchTasks(userId, searchTerm) {
     setLoading(true);
-    const { data, error } = await supabase
+    let query = supabase
       .from("tasks")
       .select("*")
-      .eq("user_id", userId)
-      .order("id", { ascending: true });
+      .eq("user_id", userId);
+
+    if (searchTerm) {
+      query = query.or(`title.ilike.%${searchTerm}%,description.ilike.%${searchTerm}%`);
+    }
+
+    query = query.order("id", { ascending: true });
+
+    const { data, error } = await query;
 
     if (error) {
       console.error("Fetch error:", error);
@@ -48,6 +57,11 @@ export default function TaskList() {
         <p className="text-muted text-center">
           Manage and view every task you’ve created.
         </p>
+        {searchTerm && (
+          <p className="text-center">
+            Showing results for "<strong>{searchTerm}</strong>"
+          </p>
+        )}
 
         {/* Two evenly sized columns */}
         <div
@@ -70,7 +84,7 @@ export default function TaskList() {
             }}
           >
             {leftColumn.map((task) => (
-              <TaskCard key={task.id} task={task} onUpdate={() => fetchTasks(user.id)} />
+              <TaskCard key={task.id} task={task} onUpdate={() => fetchTasks(user.id, searchTerm)} />
             ))}
           </div>
 
@@ -85,7 +99,7 @@ export default function TaskList() {
             }}
           >
             {rightColumn.map((task) => (
-              <TaskCard key={task.id} task={task} onUpdate={() => fetchTasks(user.id)} />
+              <TaskCard key={task.id} task={task} onUpdate={() => fetchTasks(user.id, searchTerm)} />
             ))}
           </div>
         </div>
