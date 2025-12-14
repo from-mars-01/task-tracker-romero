@@ -30,6 +30,25 @@ export default function Login() {
     } finally {
       setLoading(false);
     }
+
+  };
+
+    const handleForgotPassword = async () => {
+  if (!email) {
+    alert("Please enter your email address first.");
+    return;
+  }
+
+  const { error } = await supabase.auth.resetPasswordForEmail(email, {
+    redirectTo: `${window.location.origin}/reset-password`,
+  });
+
+  if (error) {
+    console.error("Password reset error:", error);
+    alert(error.message);
+  } else {
+    alert("Password reset email sent. Check your inbox.");
+  }
   };
 
   return (
@@ -57,6 +76,7 @@ export default function Login() {
             required
           />
         </Form.Group>
+        <Button variant="link" className='p-0 mt-2 text-decoration-none' onClick={handleForgotPassword} disabled={!email}>Forgot Password?</Button>
         <Button type="submit" className="w-30" disabled={loading}>
           {loading ? 'Logging in...' : 'Login'}
         </Button>

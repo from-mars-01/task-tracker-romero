@@ -1,0 +1,86 @@
+
+.note-card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  min-width: 280px;
+}
+
+.note-card__body {
+  padding:16px;
+  text-align: left;
+}
+
+.note-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  flex-wrap: nowrap;
+  width: 100%  ;
+  min-width: 0;
+}
+
+.note-card__completeBtn {
+flex-shrink: 0;
+  white-space: nowrap;
+  min-width: 44px;
+  width: 44px;
+  height: 36px;                
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.note-card__title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #333;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1;
+  margin-right: 16px;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.note-card__redLine {
+  height: 3px;
+  background: linear-gradient(to right, #ff3333, #ff6666);
+  margin: 8px 0 16px 0;
+}
+
+.note-card__detailsArea {
+  margin-top: 8px;
+}
+
+/* Ruled paper layer */
+.note-card__paper {
+  background: linear-gradient(transparent 29px, #a0d8ef 29px, #a0d8ef 31px, transparent 31px);
+  background-size: 100% 32px; 
+  padding: 8px 12px 12px 40px; 
+  line-height: 32px; 
+  position: relative;
+}
+
+.note-card__details {
+  color: #333;
+  font-size: 1rem;
+  min-height: 96px;
+  word-wrap: break-word;
+}
+
+.note-card--done {
+  opacity: 0.85;
+  border-color: #b7e4c7;
+}
+
+.note-card--done .note-card__title,
+.note-card--done .note-card__details {
+  opacity: 0.7;
+  text-decoration: line-through;
+}

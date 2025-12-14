@@ -11,7 +11,7 @@ export default function Header() {
   const isActive = (path) => location.pathname === path;
 
   return (
-    <Navbar bg="dark" variant="dark" expand="md" sticky="top">
+    <Navbar bg="dark" variant="dark" expand="md" sticky="top" className="border-bottom border-secondary shadow-sm">
       <Container>
         {/* Brand */}
         <Navbar.Brand as={Link} to="/">Task Tracker</Navbar.Brand>
